@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %} Sign Up {% endblock title %}
+{% block body %}
+
+<div class="container" style="border-radius: 80px;">
+    <div class="p-4 m-5" >
+        <div class="col-lg-4 mt-4 mb-4 mx-auto border rounded pt-2  ">
+            <h1 align="center" class="container-teal pt-5">Login Account</h1>
+
+            <form action="/login" method="post" class="p-4 ">
+
+                {% csrf_token %}
+                {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{error}}
+                </div>
+                {% endif %}
+
+
+                <!--email-->
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input aria-describedby="helpId" class="form-control" id="" name="email" placeholder="example@gmail.com" required
+                           type="email" value="{{values.email}}">
+                </div>
+
+                <!--email-->
+                <div class="form-group">
+                    <label for="">Password</label>
+                    <input aria-describedby="helpId" class="form-control" id="" name="password" placeholder="********"
+                           type="password">
+                </div>
+
+
+                <!--                            &lt;!&ndash;email&ndash;&gt;-g-->
+
+
+                <div class="form-group pb-2">
+                    <input class="btn btn-sm mt-4 btn-info col-lg-3" type="submit" value="Login">
+
+                </div>
+
+
+            </form>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{%endblock body %}

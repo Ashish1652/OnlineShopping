@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %} About {% endblock title %}
+{% block body %}
+{% load cart  %}
+
+
+<div class="container1-fluid mt-3">
+    <div class="row">
+
+        <div class="col-lg-3 mx-auto">
+            <div class="list-group">
+                <a aria-current="true" class="list-group-item list-group-item-action active" style="background-color: black; color: white; border-color: black;" href="#">
+                    Products
+                </a>
+                <a class="list-group-item list-group-item-action" href="product">All Products</a>
+
+                {% for category in categories %}
+
+
+                <a class="list-group-item list-group-item-action" href="?category={{category.id}}">{{category.name}}</a>
+
+                {% endfor %}
+                <!--          <a href="#" class="list-group-item list-group-item-action">A second link item</a>-->
+                <!--          <a href="#" class="list-group-item list-group-item-action">A third link item</a>-->
+                <!--          <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>-->
+                <!--          <a class="list-group-item list-group-item-action disabled">A disabled link item</a>-->
+            </div>
+
+        </div>
+
+
+
+        <div class="col-lg-8 mx-auto" id='products'>
+            <div class="row">
+                {% for product in products %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <img alt="..." class="card-img-top" src="{{product.image.url}}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{product.name}}</h5>
+<!--                            <h5 class="card-subtitle">{{product.description}}</h5>-->
+                            <p class="card-text mt-auto"><b>{{product.price|currency}}</b></p>
+                        </div>
+                        <div class="card-footer bg-white border-0">
+                            {% if product|is_in_cart:request.session.cart %}
+                            <div class="d-flex align-items-center justify-content-between">
+                                <form action="product" method="post">
+                                    {% csrf_token %}
+                                    <input hidden name="product" value="{{product.id}}">
+                                    <input hidden name="remove" value="True">
+                                    <button class="btn btn-outline-dark" type="submit">−</button>
+                                </form>
+                                <span class="fw-bold">{{product|cart_quantity:request.session.cart}}</span>
+                                <form action="product" method="post">
+                                    {% csrf_token %}
+                                    <input hidden name="product" value="{{product.id}}">
+                                    <button class="btn btn-outline-dark" type="submit">+</button>
+                                </form>
+                            </div>
+                            {% else %}
+                            <form action="product#{{product.id}}" method="post">
+                                {% csrf_token %}
+                                <input hidden name="product" value="{{product.id}}">
+                                <button class="btn btn-dark w-100" style="background-color: black;" type="submit">Add To Cart</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+{%endblock body %}
+
